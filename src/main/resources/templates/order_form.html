@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout :: head"></head>
+<body>
+
+	<div id="wrapper">
+<nav th:replace="layout :: sidebar"></nav>
+		<div id="page-wrapper">
+			<div class="row">
+				<div class="col-sm-12">
+					<h3 class="page-header">Add order</h3>
+				</div>
+				<!-- /.col-sm-12 -->
+			</div>
+			<!-- /.row -->
+
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="panel panel-primary">
+						
+						<!-- /.panel-heading -->
+						<div class="panel-body">
+							<form th:action="@{/order/save}" th:object="${order}"
+								method="POST">
+								<input type="hidden" th:field="*{id}" />
+								<div class="form-group">
+									<label>Choose Book<span class="required">*</span></label> <select
+										class="form-control" th:field="*{book_id}">
+										<option th:each="book : ${books}" th:value="${book.id}"
+											th:text="${book.id+') '+book.name}"></option>
+									</select>
+								</div>
+								<div class="form-group">
+									<label>Choose User <span class="required">*</span></label> <select
+										class="form-control" th:field="*{user_id}">
+										<option th:each="user : ${users}" th:value="${user.id}"
+											th:text="${user.id+') '+user.name}"></option>
+									</select>
+								</div>
+
+								<div class="form-group">
+									<label>Count <span class="required">*</span></label> <input
+										type="number" th:field="*{count}" th:errorclass="field-error"
+										class="form-control" min="0" max="10000" /> <span
+										th:if="${#fields.hasErrors('count')}" th:errors="*{count}"
+										class="error"></span>
+								</div>
+								<button type="submit" name="action" value="save"
+									class="btn btn-primary">
+									<i class="fa fa-save"></i> Save
+								</button>
+								<button type="submit" name="action" value="edit" th:if="${id != null}"
+									class="btn btn-warning">
+									<i class="fa fa-edit"></i> Edit
+									
+								</button>
+							</form>
+						</div>
+						<!-- /.panel-body -->
+					</div>
+					<!-- /.panel -->
+				</div>
+				<!-- /.col-sm-12 -->
+			</div>
+			<!-- /.row -->
+		</div>
+		<!-- /#page-wrapper -->
+
+	</div>
+
+</body>
+</html>

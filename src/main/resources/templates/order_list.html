@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout :: head"></head>
+<body>
+<div id="wrapper">
+<nav th:replace="layout :: sidebar"></nav>
+	<div id="page-wrapper">
+	    <div class="row">
+	        <div class="col-sm-12">
+	            <h3 class="page-header">Orders</h3>
+	        </div>
+	        <!-- /.col-sm-12 -->
+	    </div>
+	    <!-- /.row -->
+	
+	    <div class="row">
+	        <div class="col-sm-12">
+	        	<div th:if="${success}" class="row alert alert-success alert-dismissible">
+			        <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
+			        <span th:text="${success}"></span>
+			    </div>
+	        	
+	            <div class="panel panel-primary">
+	                
+	                <!-- /.panel-heading -->
+	                <div class="panel-body" >
+	                	<h4 th:if="${#lists.isEmpty(orders)}">No orders in list</h4>
+	                    
+	                    <table th:unless="${#lists.isEmpty(orders)}" style="width:100%" class="table table-striped table-bordered" 
+	                    	id="dataTables-example">
+	                        <thead>
+	                        
+	                            <tr>
+	                                <th width="4%">Order id</th>
+                                    <th width="6%">Book id</th>
+                                    <th width="15%">Book name</th>
+                                    <th width="10%">Price</th>
+                                    <th width="8%">User id</th>
+                                    <th width="10%">Username</th>
+                                    <th width="10%">Count</th>
+                                    <th width="10%">Total</th>
+                                    <th width="15%">Date</th>
+                                    <th width="10%">Info</th>
+	                            </tr>
+	                        </thead>
+	                        <tbody>
+	                            <tr th:each="order : ${orders}">
+	                                <td th:text="${order.id}"></td>
+                                    <td th:text="${order.book_id}"></td>
+                                    <td th:text="${order.book_name}"></td>
+                                    <td th:text="${order.price}"></td>
+                                    <td th:text="${order.user_id}"></td>
+                                    <td th:text="${order.user_name}"></td>
+                                    <td th:text="${order.count}"></td>
+                                    <td th:text="${order.total}"></td>
+            						<td th:text="${order.date}"></td>
+                                    <td>
+                                    	<div class="dropdown">
+                                            <button class="btn btn-danger btn-sm dropdown-toggle" data-toggle="dropdown">
+                                                Edit
+                                                <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                            	<li>
+                                                	<a class="dropdown-item" th:href="@{/user/{id}/orders(id=${order.user_id})}">
+                                                		Orders
+                                                	</a>
+                                                </li>
+                                                <li>
+                                                	<a class="dropdown-item" th:href="@{/order/{id}/edit(id=${order.id})}">
+                                                		Edit
+                                                	</a>
+                                                </li>
+                                                <li>
+                                                	<a class="dropdown-item" th:href="@{/order/{id}/delete(id=${order.id})}"
+                                                		th:attr="onclick='return confirm(\'Delete?\');'">
+                                                		Delete 
+                                                	</a>
+                                                </li>
+                                            </ul>
+                                        	</div>
+                                    
+                                    </td>
+	                            </tr>
+	                        </tbody>
+	                    </table>
+	                    
+	                    <h4 th:if="${!#lists.isEmpty(orders)}" th:inline="text">Sum total is: [[${sum_total}]]</h4>
+	                    <!-- /.table-responsive -->
+	                </div>
+	                <!-- /.panel-body -->
+	            </div>
+	            <!-- /.panel -->
+	        </div>
+	        <!-- /.col-sm-12 -->
+	    </div>
+	    <!-- /.row -->
+</div>
+		<!-- /#page-wrapper -->
+
+	</div>
+
+<script>
+<!-- Page-Level Demo Scripts - Tables - Use for reference -->
+ $(document).ready(function() {
+    $('#dataTables-example').DataTable();
+} );
+</script>
+
+
+</body>
+</html>
